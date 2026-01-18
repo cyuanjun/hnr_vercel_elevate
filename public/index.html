@@ -1,0 +1,158 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Elevate: Bid Arena</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="crt"></div>
+    <div class="start-screen" id="startScreen">
+      <button class="start-button" id="startButton">PRESS START_</button>
+    </div>
+    <main class="arena">
+      <header class="top-banner">
+        <div class="banner-title">ELEVATE</div>
+        <div class="banner-sub">PAY-TO-WIN ELEVATOR SIMULATION</div>
+      </header>
+
+      <section class="arena-grid">
+        <aside class="stack">
+          <div class="stack-row">
+            <div class="panel panel-ai centered-panel">
+              <div class="panel-title">AI BOT</div>
+              <div class="panel-line">
+                <span class="panel-label">CREDITS:</span>
+                <span class="panel-value"><span class="value-highlight">$</span><span id="aiMoney" class="value-highlight">0</span></span>
+              </div>
+              <div class="panel-line">
+                <span class="panel-label">SCORE:</span>
+                <span class="panel-value"><span id="aiScore" class="value-highlight">0</span></span>
+              </div>
+            </div>
+            <div class="panel panel-ai-bid centered-panel">
+              <div class="panel-title">AI BID</div>
+              <div class="panel-line">
+                <span class="panel-label">BID:</span>
+                <span class="panel-value"><span class="value-highlight">$</span><span id="aiBid" class="value-highlight">-</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-reasoning">
+            <div class="panel-title">AI REASONING</div>
+            <ul class="reasons" id="aiReasons">
+              <li>Waiting for the first round...</li>
+            </ul>
+          </div>
+          <div class="panel panel-ai-extra bottom-box left-bottom-box">
+            <div class="sprite-bin" id="aiSpriteBin"></div>
+          </div>
+        </aside>
+
+        <section class="center-stage">
+          <div class="round-badge">
+            <div class="round-label">ROUND <span id="roundNum">1</span></div>
+            <div class="round-sub" id="gameStatus">MAKE A BID</div>
+            <div class="round-timer"><span id="timerLabel">ROUND ENDS IN:</span> <span id="bidTimer">10</span>s</div>
+            <div class="round-maintenance">MAINTENANCE FEES: $<span id="maintenanceFee">0</span></div>
+          </div>
+          <div class="elevator" id="elevator">
+            <div class="elevator-doors"></div>
+            <img class="elevator-sprite" src="/sprite.png" alt="Sprite" />
+          </div>
+        </section>
+
+        <aside class="stack">
+          <div class="stack-row">
+            <div class="panel panel-player-bid centered-panel">
+              <div class="panel-title">PLAYER BID</div>
+              <div class="panel-line">
+                <span class="panel-label">BID:</span>
+                <span class="panel-value"><span class="value-highlight">$</span><span id="playerBid" class="value-highlight">-</span></span>
+              </div>
+            </div>
+            <div class="panel panel-player centered-panel">
+              <div class="panel-title">PLAYER</div>
+              <div class="panel-line">
+                <span class="panel-label">CREDITS:</span>
+                <span class="panel-value"><span class="value-highlight">$</span><span id="playerMoney" class="value-highlight">0</span></span>
+              </div>
+              <div class="panel-line">
+                <span class="panel-label">SCORE:</span>
+                <span class="panel-value"><span id="playerScore" class="value-highlight">0</span></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-bid">
+            <div class="panel-title">YOUR BID</div>
+            <form id="bidForm" class="bid-form" novalidate>
+              <label for="bidInput">YOUR BID ($)</label>
+              <div class="input-row">
+                <input id="bidInput" type="number" step="1" placeholder="0" inputmode="numeric" />
+                <button type="submit">LOCK BID</button>
+              </div>
+              <p class="hint" id="bidHint">Higher bid wins the passengers.</p>
+              <div class="bid-meta">
+                <span class="error" id="bidError"></span>
+              </div>
+            </form>
+          </div>
+          <div class="panel panel-side-extra">
+            <div class="panel-title">BID HISTORY</div>
+            <canvas id="bidChart" width="320" height="240"></canvas>
+          </div>
+          <div class="panel panel-ai-extra bottom-box right-bottom-box">
+            <div class="sprite-bin" id="playerSpriteBin"></div>
+          </div>
+        </aside>
+      </section>
+    </main>
+    <div class="modal hidden" id="reportModal">
+      <div class="modal-window">
+        <div class="modal-title">FINAL REPORT</div>
+        <div class="report-result">
+          <div class="result-title" id="resultTitle">RESULT</div>
+          <div class="result-message" id="resultMessage"></div>
+        </div>
+        <div class="scoreboard">
+          <div class="score-cell">
+            <div class="score-label">AI BOT</div>
+            <div class="score-value" id="finalAiScore">0</div>
+          </div>
+          <div class="score-divider">VS</div>
+          <div class="score-cell">
+            <div class="score-label">YOU</div>
+            <div class="score-value" id="finalPlayerScore">0</div>
+          </div>
+        </div>
+        <div class="archetype-card">
+          <div class="archetype-title">OVERALL ARCHETYPE</div>
+          <div class="archetype-value" id="finalArchetype">-</div>
+        </div>
+        <div class="report-grid" id="reportGrid"></div>
+        <div class="takeaway-card">
+          <div class="takeaway-title">KEY TAKEAWAY</div>
+          <div class="takeaway-value" id="finalTakeaway">-</div>
+        </div>
+        <div class="suggestions-card">
+          <div class="suggestions-title">SUGGESTIONS</div>
+          <ul class="suggestions-list" id="finalSuggestions"></ul>
+        </div>
+        <div class="modal-actions">
+          <button class="modal-close" id="reportClose">CLOSE</button>
+          <button class="modal-restart" id="reportRestart">RESTART</button>
+        </div>
+      </div>
+    </div>
+    <script src="/app.js"></script>
+  </body>
+</html>

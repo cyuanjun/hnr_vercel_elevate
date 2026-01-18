@@ -1,0 +1,13 @@
+﻿{
+  "dependencies": {
+    "@vercel/kv": "^3.0.0",
+    "@langchain/langgraph": "^1.1.0",
+    "@langchain/openai": "^1.2.2",
+    "dotenv": "^17.2.3",
+    "readline-sync": "^1.4.10",
+    "zod": "^4.3.5"
+  },
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}
