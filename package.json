@@ -1,4 +1,4 @@
-﻿{
+{
   "dependencies": {
     "@vercel/kv": "^3.0.0",
     "@langchain/langgraph": "^1.1.0",
